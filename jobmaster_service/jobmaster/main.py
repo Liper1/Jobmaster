@@ -9,7 +9,8 @@ import os
 
 
 app = FastAPI()
-BACKEND_URL = os.getenv("BACKEND_URL", "https://api.arquitecturadesoftware.me")
+BACKEND_URL="http://3.148.5.72"
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

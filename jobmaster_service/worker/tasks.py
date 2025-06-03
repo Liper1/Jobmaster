@@ -35,8 +35,26 @@ def estimate_stock(job_id, data):
                last_month <= datetime.fromisoformat(p["timestamp"]).date() <= today
         ]
 
-        if len(filtered) < 2:
-            raise Exception("Insuficientes puntos para proyectar")
+        if len(filtered) >= 2:
+            filtered.sort(key=lambda x: x["timestamp"])
+            start = filtered[0]
+            end = filtered[-1]
+
+            days_between = (datetime.fromisoformat(end["timestamp"]) - datetime.fromisoformat(start["timestamp"])).days
+            if days_between == 0:
+                raise Exception("Los precios no tienen días de diferencia")
+
+            m = (end["price"] - start["price"]) / days_between
+            projected_price = end["price"] + (m * 30)
+            estimated_gain = round((projected_price - end["price"]) * quantity, 2)
+        elif len(filtered) == 1:
+            # Estimar un aumento fijo del 5% si solo hay un punto
+            base_price = filtered[0]["price"]
+            projected_price = base_price * 1.05
+            estimated_gain = round((projected_price - base_price) * quantity, 2)
+        else:
+            raise Exception("No hay datos disponibles para estimar")
+
 
         filtered.sort(key=lambda x: x["timestamp"])
         start = filtered[0]
