@@ -25,6 +25,7 @@ class JobData(BaseModel):
     user_id: str
     stock_symbol: str
     quantity: int
+    request_id: str  
 
 @app.post("/job")
 def create_job(data: JobData):
