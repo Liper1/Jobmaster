@@ -59,7 +59,7 @@ def estimate_stock(job_id, data):
     }
 
     try:
-        requests.post("http://jobmaster:8000/internal/update_job", json={
+        requests.post("https://api.arquitecturadesoftware.me/internal/update_job", json={
             "job_id": job_id,
             "result": resultado
         })
