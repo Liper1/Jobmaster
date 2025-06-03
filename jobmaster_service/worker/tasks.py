@@ -19,7 +19,7 @@ def estimate_stock(job_id, data):
 
     try:
         today = datetime.utcnow().date()
-        last_month = today - timedelta(days=30)
+        last_month = today - timedelta(days=60)
 
         resp = requests.get(f"{BACKEND_URL}/stocks/{symbol}/event_log?page=1&count=100")
         if resp.status_code != 200:
@@ -32,8 +32,9 @@ def estimate_stock(job_id, data):
         filtered = [
             p for p in data_points 
             if "price" in p and "timestamp" in p and 
-               last_month <= datetime.fromisoformat(p["timestamp"]).date() <= today
+            last_month <= datetime.fromisoformat(p["timestamp"]).date() <= today
         ]
+
 
         if len(filtered) >= 2:
             filtered.sort(key=lambda x: x["timestamp"])
