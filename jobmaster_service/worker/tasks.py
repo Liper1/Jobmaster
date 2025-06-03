@@ -17,7 +17,7 @@ def estimate_stock(job_id, data):
         today = datetime.utcnow().date()
         last_month = today - timedelta(days=30)
 
-        resp = requests.get(f"http://api:8000/stocks/{symbol}/event_log?page=1&count=100")
+        resp = requests.get(f"https://api.arquitecturadesoftware.me/stocks/{symbol}/event_log?page=1&count=100")
         if resp.status_code != 200:
             raise Exception("No se pudo obtener precios históricos")
 
