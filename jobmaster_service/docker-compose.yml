@@ -24,12 +24,6 @@ services:
     depends_on:
       - redis
 
-networks:
-  default:
-    external:
-      name: jobmaster-network
-
-
   worker2:
     build: ./worker
     container_name: celery-worker-2
@@ -37,3 +31,8 @@ networks:
       - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on:
       - redis
+
+networks:
+  default:
+    external:
+      name: jobmaster-network
