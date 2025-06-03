@@ -63,11 +63,14 @@ def estimate_stock(job_id, data):
     }
 
     try:
-        requests.post(f"{BACKEND_URL}/internal/update_job", json={
+        print(f"[Tasks] Enviando estimación al backend: {resultado}")
+        response = requests.post(f"{BACKEND_URL}/internal/update_job", json={
             "job_id": job_id,
             "result": resultado
         })
+        print(f"[Tasks] Respuesta backend: {response.status_code} - {response.text}")
     except Exception as e:
-        print("Error al enviar resultado al backend:", e)
+        print(f"[Tasks] Error al enviar resultado al backend: {e}")
+
 
     return resultado
