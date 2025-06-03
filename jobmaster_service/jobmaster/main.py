@@ -7,7 +7,7 @@ from fastapi import Request
 import requests
 
 app = FastAPI()
-BACKEND_URL = "http://api:8000"
+BACKEND_URL = "https://api.arquitecturadesoftware.me"
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
