@@ -5,9 +5,11 @@ from celery import Celery
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Request
 import requests
+import os
+
 
 app = FastAPI()
-BACKEND_URL = "https://api.arquitecturadesoftware.me"
+BACKEND_URL = os.getenv("BACKEND_URL", "https://api.arquitecturadesoftware.me")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -55,10 +57,10 @@ async def update_job(request: Request):
 
         #PROBAR LOCAL
         try:
-            requests.post("https://api.arquitecturadesoftware.me/internal/update_job", json={
+            requests.post(f"{BACKEND_URL}/internal/update_job", json={
                 "job_id": job_id,
                 "result": result,
-                "request_id": result.get("request_id") 
+                "request_id": result.get("request_id")
             })
         except Exception as e:
             print("[JobMaster] Error reenviando resultado al backend:", e)

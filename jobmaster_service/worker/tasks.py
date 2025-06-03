@@ -1,13 +1,17 @@
 from celery import Celery
 import requests
 from datetime import datetime, timedelta
+import os
 
+
+
+
+BACKEND_URL = os.getenv("BACKEND_URL", "https://api.arquitecturadesoftware.me")
 app = Celery("tasks", broker="redis://redis:6379/0")
 
 @app.task(name="tasks.estimate_stock")
 def estimate_stock(job_id, data):
     print(f"Procesando job {job_id} con data: {data}")
-    
     symbol = data["stock_symbol"]
     quantity = data["quantity"]
     request_id = data.get("request_id")
@@ -17,7 +21,7 @@ def estimate_stock(job_id, data):
         today = datetime.utcnow().date()
         last_month = today - timedelta(days=30)
 
-        resp = requests.get(f"https://api.arquitecturadesoftware.me/stocks/{symbol}/event_log?page=1&count=100")
+        resp = requests.get(f"{BACKEND_URL}/stocks/{symbol}/event_log?page=1&count=100")
         if resp.status_code != 200:
             raise Exception("No se pudo obtener precios históricos")
 
@@ -59,7 +63,7 @@ def estimate_stock(job_id, data):
     }
 
     try:
-        requests.post("https://api.arquitecturadesoftware.me/internal/update_job", json={
+        requests.post(f"{BACKEND_URL}/internal/update_job", json={
             "job_id": job_id,
             "result": resultado
         })
