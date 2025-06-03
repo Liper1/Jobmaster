@@ -12,10 +12,7 @@ services:
     ports:
       - "8010:8000"
     env_file:
-      - ./jobmaster/.env      # Ruta a tu archivo .env para jobmaster
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      # BACKEND_URL ya puede venir del .env, si quieres evitar duplicados puedes quitar esta línea
+      - ./.env
     depends_on:
       - redis
 
@@ -25,10 +22,7 @@ services:
     ports:
       - "8011:8000"
     env_file:
-      - ./worker/.env         # Archivo .env para workers, si igual usan variables similares
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      # BACKEND_URL también puede venir del .env
+      - ./.env
     depends_on:
       - redis
 
@@ -38,9 +32,7 @@ services:
     ports:
       - "8012:8000"
     env_file:
-      - ./worker/.env
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
+      - ./.env
     depends_on:
       - redis
 
