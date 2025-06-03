@@ -6,7 +6,7 @@ import os
 
 
 
-BACKEND_URL = os.getenv("BACKEND_URL", "https://api.arquitecturadesoftware.me")
+BACKEND_URL = "http://3.148.5.72"
 app = Celery("tasks", broker="redis://redis:6379/0")
 
 @app.task(name="tasks.estimate_stock")
