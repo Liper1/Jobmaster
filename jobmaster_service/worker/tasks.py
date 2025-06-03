@@ -12,7 +12,8 @@ def estimate_stock(job_id, data):
     # Resultado simulado
     resultado = {
         "status": "completed",
-        "estimated_gain": round(data["quantity"] * 12.5, 2)
+        "estimated_gain": round(data["quantity"] * 12.5, 2),
+        "request_id": data.get("request_id") #agregar request id para guardar las estimaciones con el request de transacciones
     }
 
     # Enviar resultado de vuelta al JobMaster
@@ -21,5 +22,6 @@ def estimate_stock(job_id, data):
             "job_id": job_id,
             "result": resultado
         })
+        return resultado
     except Exception as e:
         print(f"Error al enviar resultado: {e}")

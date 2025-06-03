@@ -4,9 +4,10 @@ import uuid
 from celery import Celery
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Request
+import requests
 
 app = FastAPI()
-
+BACKEND_URL = "http://api:8000"
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -50,6 +51,17 @@ async def update_job(request: Request):
     result = data.get("result")
     if job_id and result:
         results[job_id] = result
+
+        #PROBAR LOCAL
+        try:
+            requests.post("http://api:8000/internal/update_job", json={
+                "job_id": job_id,
+                "result": result,
+                "request_id": result.get("request_id") 
+            })
+        except Exception as e:
+            print("[JobMaster] Error reenviando resultado al backend:", e)
+
         return {"msg": "ok"}
     else:
         raise HTTPException(status_code=400, detail="Faltan datos")

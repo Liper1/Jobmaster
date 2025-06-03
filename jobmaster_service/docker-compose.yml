@@ -24,6 +24,12 @@ services:
     depends_on:
       - redis
 
+networks:
+  default:
+    external:
+      name: jobmaster-network
+
+
   worker2:
     build: ./worker
     container_name: celery-worker-2
