@@ -55,7 +55,7 @@ async def update_job(request: Request):
 
         #PROBAR LOCAL
         try:
-            requests.post("http://api:8000/internal/update_job", json={
+            requests.post("https://api.arquitecturadesoftware.me/internal/update_job", json={
                 "job_id": job_id,
                 "result": result,
                 "request_id": result.get("request_id") 
